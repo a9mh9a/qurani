@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- يظهر الموقع كتطبيق على الموبايل -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FitQuest">
+
+    <!-- الأيقونة -->
+    <link rel="icon" type="image/jpeg" href="C:\Users\Hussien\Desktop\قراني\images\'The Qur'an is the only book where the _Author_ is in love with the reader' ❤️.jfif">
+    <link rel="apple-touch-icon" href="C:\Users\Hussien\Desktop\قراني\images\'The Qur'an is the only book where the _Author_ is in love with the reader' ❤️.jfif">
+    <title>القرآن الكريم </title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --islamic-green: #0a5e2d;
+            --gold: #d4af37;
+            --light-green: #e8f5e9;
+            --dark-green: #064e23;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --text-dark: #333333;
+            --border-radius: 12px;
+        }
+        
+        /* الوضع الليلي */
+        .dark-mode {
+            --islamic-green: #1a7d3d;
+            --gold: #e6c158;
+            --light-green: #1a2a1a;
+            --dark-green: #0d3a1a;
+            --white: #1e1e1e;
+            --light-gray: #2d2d2d;
+            --text-dark: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-green);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .app-container {
+            max-width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* شاشة الترحيب */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--islamic-green), var(--dark-green));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: transform 0.5s ease;
+            padding: 20px;
+        }
+        
+        .welcome-screen.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .app-logo {
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+        
+        .app-title {
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .app-subtitle {
+            color: var(--white);
+            margin-bottom: 40px;
+            text-align: center;
+            opacity: 0.9;
+        }
+        
+        .login-form {
+            width: 90%;
+            max-width: 400px;
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--islamic-green);
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--islamic-green);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(10, 94, 45, 0.2);
+        }
+        
+        .btn {
+            background-color: var(--islamic-green);
+            color: var(--white);
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            font-size: 1rem;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: var(--dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--text-dark);
+        }
+        
+        .btn-gold:hover {
+            background-color: #c19b2a;
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            width: auto;
+        }
+        
+        /* الواجهة الرئيسية */
+        .main-app {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, var(--islamic-green), var(--dark-green));
+            color: var(--white);
+            padding: 20px 15px;
+            text-align: center;
+            border-bottom: 5px solid var(--gold);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .app-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--gold);
+            color: var(--text-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        
+        .app-nav {
+            display: flex;
+            background-color: var(--white);
+            overflow-x: auto;
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-item {
+            padding: 10px 20px;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item.active {
+            color: var(--islamic-green);
+            border-bottom-color: var(--islamic-green);
+        }
+        
+        .app-content {
+            flex: 1;
+            padding: 15px;
+            padding-bottom: 70px;
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-right: 4px solid var(--gold);
+        }
+        
+        .card h2 {
+            color: var(--islamic-green);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 10px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h2 i {
+            margin-left: 10px;
+        }
+        
+        .daily-message {
+            background: linear-gradient(135deg, var(--islamic-green), var(--dark-green));
+            color: var(--white);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-right: 4px solid var(--gold);
+        }
+        
+        .daily-message h3 {
+            margin-bottom: 10px;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+        
+        .progress-section {
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--islamic-green), var(--gold));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        
+        .surahs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        
+        .surah-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-bottom: 3px solid var(--islamic-green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .surah-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .surah-number {
+            background-color: var(--islamic-green);
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .surah-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .surah-details {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .reading-section {
+            margin-top: 20px;
+        }
+        
+        .surah-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--islamic-green), var(--dark-green));
+            color: white;
+            border-radius: var(--border-radius);
+        }
+        
+        .surah-header h3 {
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+        
+        .bismillah {
+            text-align: center;
+            font-size: 1.8rem;
+            margin: 20px 0;
+            font-family: 'Traditional Arabic', 'Scheherazade New', serif;
+            color: var(--islamic-green);
+        }
+        
+        .quran-text {
+            font-size: 1.5rem;
+            line-height: 2.5;
+            text-align: right;
+            margin-bottom: 20px;
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border-right: 4px solid var(--gold);
+            font-family: 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        
+        .verse {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .verse-number {
+            position: absolute;
+            left: -10px;
+            top: 0;
+            background-color: var(--islamic-green);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-family: sans-serif;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .controls .btn {
+            width: auto;
+            padding: 10px 15px;
+        }
+        
+        .plan-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .plan-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-top: 4px solid var(--islamic-green);
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .plan-card.selected {
+            border-top-color: var(--gold);
+            background-color: #f5f5f5;
+        }
+        
+        .plan-duration {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--islamic-green);
+            margin-bottom: 10px;
+        }
+        
+        .plan-pages {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+        }
+        
+        .app-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 90;
+        }
+        
+        .footer-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #777;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-tab i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .footer-tab.active {
+            color: var(--islamic-green);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--islamic-green);
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .plan-progress {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--islamic-green), var(--dark-green));
+            color: white;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+        
+        .plan-progress h4 {
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+        
+        .plan-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        /* تصميم متجاوب إضافي */
+        @media (max-width: 480px) {
+            .surahs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .plan-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .quran-text {
+                font-size: 1.3rem;
+                line-height: 2.2;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .surahs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-nav {
+                font-size: 0.9rem;
+            }
+            
+            .nav-item {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- شاشة الترحيب -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="app-logo">
+                <i class="fas fa-quran"></i>
+            </div>
+            <h1 class="app-title">القرآن الكريم</h1>
+            <p class="app-subtitle">تطبيق متكامل لقراءة وحفظ القرآن</p>
+            
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="userName">اسم المستخدم</label>
+                    <input type="text" id="userName" placeholder="أدخل اسمك">
+                </div>
+                <div class="form-group">
+                    <label for="userGender">الجنس</label>
+                    <select id="userGender">
+                        <option value="male">ذكر</option>
+                        <option value="female">أنثى</option>
+                    </select>
+                </div>
+                <button id="loginBtn" class="btn">بدء الاستخدام</button>
+            </div>
+        </div>
+        
+        <!-- التطبيق الرئيسي -->
+        <div class="main-app" id="mainApp">
+            <header class="app-header">
+                <div class="header-content">
+                    <div class="app-name">القرآن الكريم</div>
+                    <div class="user-profile">
+                        <button class="theme-toggle" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <div class="user-avatar" id="userAvatar">م</div>
+                    </div>
+                </div>
+            </header>
+            
+            <nav class="app-nav">
+                <a href="#" class="nav-item active" data-tab="home">الرئيسية</a>
+                <a href="#" class="nav-item" data-tab="quran">القرآن</a>
+                <a href="#" class="nav-item" data-tab="memorize">الحفظ</a>
+                <a href="#" class="nav-item" data-tab="plans">خطط الختم</a>
+                <a href="#" class="nav-item" data-tab="settings">الإعدادات</a>
+            </nav>
+            
+            <main class="app-content">
+                <!-- الرسالة اليومية -->
+                <div class="daily-message">
+                    <h3><i class="fas fa-quote-right"></i> رسالة اليوم</h3>
+                    <p id="dailyMessageText">"يا أيها الذين آمنوا اصبروا وصابروا ورابطوا واتقوا الله لعلكم تفلحون" - آل عمران (200)</p>
+                </div>
+                
+                <!-- تبويب الرئيسية -->
+                <div id="homeTab" class="tab-content active">
+                    <!-- خطة الختم الحالية -->
+                    <div class="card" id="currentPlanHomeCard" style="display: none;">
+                        <h2><i class="fas fa-calendar-check"></i> خطتك الحالية</h2>
+                        <div id="currentPlanHomeInfo"></div>
+                        <div class="plan-progress">
+                            <h4>تقدمك في الخطة</h4>
+                            <div class="progress-bar">
+                                <div class="progress" id="planProgressBar" style="width: 0%"></div>
+                            </div>
+                            <div class="plan-stats">
+                                <span id="planDaysCompleted">0 يوم مكتمل</span>
+                                <span id="planDaysRemaining">0 يوم متبقي</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-chart-line"></i> تقدمك في القراءة</h2>
+                        <div class="progress-section">
+                            <div class="progress-bar">
+                                <div class="progress" id="readingProgressBar" style="width: 45%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>الصفحة <span id="currentPageDisplay">270</span></span>
+                                <span><span id="readingPercent">45</span>% مكتمل</span>
+                            </div>
+                        </div>
+                        <button class="btn" id="continueReading">استمر في القراءة</button>
+                    </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-tasks"></i> تقدمك في الحفظ</h2>
+                        <div class="progress-section">
+                            <div class="progress-bar">
+                                <div class="progress" id="memorizationProgressBar" style="width: 30%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span><span id="memorizedCount">8</span> سور محفوظة</span>
+                                <span><span id="memorizationPercent">30</span>% مكتمل</span>
+                            </div>
+                        </div>
+                        <button class="btn" id="continueMemorization">استمر في الحفظ</button>
+                    </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-star"></i> السور المفضلة</h2>
+                        <div class="surahs-grid" id="favoriteSurahs">
+                            <!-- سيتم ملؤها بالجافاسكريبت -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- تبويب القرآن -->
+                <div id="quranTab" class="tab-content">
+                    <div class="card">
+                        <h2><i class="fas fa-book-open"></i> قراءة القرآن الكريم</h2>
+                        
+                        <div class="search-box">
+                            <input type="text" id="searchSurah" placeholder="ابحث عن سورة...">
+                        </div>
+                        
+                        <div class="surahs-grid" id="allSurahs">
+                            <!-- سيتم ملؤها بالجافاسكريبت -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- تبويب عرض السورة -->
+                <div id="surahTab" class="tab-content">
+                    <div class="card">
+                        <div class="surah-header" id="surahHeader">
+                            <h3 id="surahTitle">سورة الفاتحة</h3>
+                            <p id="surahInfo">مكية - 7 آيات</p>
+                        </div>
+                        
+                        <div class="bismillah" id="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                        
+                        <div class="reading-section">
+                            <div class="quran-text" id="surahText">
+                                <!-- سيتم ملؤها بالجافاسكريبت -->
+                            </div>
+                            
+                            <div class="controls">
+                                <button class="btn btn-small" id="prevSurah"><i class="fas fa-arrow-right"></i> السابقة</button>
+                                <button class="btn btn-gold btn-small" id="markVerse"><i class="fas fa-highlighter"></i> تظليل</button>
+                                <button class="btn btn-small" id="nextSurah"><i class="fas fa-arrow-left"></i> التالية</button>
+                                <button class="btn btn-small" id="addToFavorites"><i class="fas fa-star"></i> مفضلة</button>
+                            </div>
+                            
+                            <div class="progress-section">
+                                <div class="progress-bar">
+                                    <div class="progress" id="surahProgressBar" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-info">
+                                    <span>آية <span id="currentVerse">1</span> من <span id="totalVerses">7</span></span>
+                                    <span><span id="surahPercent">0</span>% مكتمل</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- تبويب الحفظ -->
+                <div id="memorizeTab" class="tab-content">
+                    <div class="card">
+                        <h2><i class="fas fa-brain"></i> تتبع تقدم الحفظ</h2>
+                        <div class="progress-section">
+                            <div class="progress-bar">
+                                <div class="progress" id="memorizeProgressBar" style="width: 30%"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span><span id="memorizeCount">8</span> سور محفوظة</span>
+                                <span><span id="memorizePercent">30</span>% مكتمل</span>
+                            </div>
+                        </div>
+                        <button class="btn" id="addMemorized"><i class="fas fa-plus"></i> إضافة سورة محفوظة</button>
+                    </div>
+
+                    <div class="card">
+                        <h2><i class="fas fa-check-circle"></i> السور المحفوظة</h2>
+                        <div class="surahs-grid" id="memorizedList">
+                            <!-- سيتم ملؤها بالجافاسكريبت -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- تبويب خطط الختم -->
+                <div id="plansTab" class="tab-content">
+                    <div class="card">
+                        <h2><i class="fas fa-calendar-alt"></i> اختر خطة لختم القرآن</h2>
+                        <p>اختر المدة المناسبة لك لختم القرآن الكريم وابدأ رحلتك اليوم</p>
+                        
+                        <div class="plan-selector">
+                            <div class="plan-card" data-duration="7" data-pages="70">
+                                <div class="plan-duration">أسبوع</div>
+                                <div class="plan-pages">~ 70 صفحة يومياً</div>
+                                <button class="btn select-plan" style="margin-top: 15px;">اختيار هذه الخطة</button>
+                            </div>
+                            <div class="plan-card" data-duration="10" data-pages="50">
+                                <div class="plan-duration">10 أيام</div>
+                                <div class="plan-pages">~ 50 صفحة يومياً</div>
+                                <button class="btn select-plan" style="margin-top: 15px;">اختيار هذه الخطة</button>
+                            </div>
+                            <div class="plan-card" data-duration="30" data-pages="17">
+                                <div class="plan-duration">شهر</div>
+                                <div class="plan-pages">~ 17 صفحة يومياً</div>
+                                <button class="btn select-plan" style="margin-top: 15px;">اختيار هذه الخطة</button>
+                            </div>
+                            <div class="plan-card" data-duration="60" data-pages="8">
+                                <div class="plan-duration">شهران</div>
+                                <div class="plan-pages">~ 8 صفحات يومياً</div>
+                                <button class="btn select-plan" style="margin-top: 15px;">اختيار هذه الخطة</button>
+                            </div>
+                            <div class="plan-card" data-duration="90" data-pages="6">
+                                <div class="plan-duration">3 أشهر</div>
+                                <div class="plan-pages">~ 6 صفحات يومياً</div>
+                                <button class="btn select-plan" style="margin-top: 15px;">اختيار هذه الخطة</button>
+                            </div>
+                            <div class="plan-card" data-duration="365" data-pages="1.5">
+                                <div class="plan-duration">سنة</div>
+                                <div class="plan-pages">~ 1.5 صفحة يومياً</div>
+                                <button class="btn select-plan" style="margin-top: 15px;">اختيار هذه الخطة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card" id="currentPlanCard" style="display: none;">
+                        <h2><i class="fas fa-calendar-check"></i> خطتك الحالية</h2>
+                        <div id="currentPlanInfo"></div>
+                        <button class="btn btn-gold" id="changePlan" style="margin-top: 15px;">تغيير الخطة</button>
+                    </div>
+                </div>
+                
+                <!-- تبويب الإعدادات -->
+                <div id="settingsTab" class="tab-content">
+                    <div class="card">
+                        <h2><i class="fas fa-cog"></i> الإعدادات</h2>
+                        <div class="form-group">
+                            <label>حجم الخط</label>
+                            <select id="fontSize">
+                                <option value="1.2">صغير</option>
+                                <option value="1.5" selected>متوسط</option>
+                                <option value="1.8">كبير</option>
+                                <option value="2.1">كبير جداً</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>نمط العرض</label>
+                            <select id="theme">
+                                <option value="default" selected>واضح</option>
+                                <option value="dark">ليلي</option>
+                                <option value="sepia">سيبيا</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>تذكير القراءة اليومية</label>
+                            <select id="reminders">
+                                <option value="off">غير مفعل</option>
+                                <option value="on" selected>مفعل</option>
+                            </select>
+                        </div>
+                        <button class="btn" id="saveSettings">حفظ الإعدادات</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h2><i class="fas fa-user"></i> معلومات المستخدم</h2>
+                        <div class="form-group">
+                            <label>اسم المستخدم</label>
+                            <input type="text" id="settingsUserName" placeholder="اسم المستخدم">
+                        </div>
+                        <div class="form-group">
+                            <label>الجنس</label>
+                            <select id="settingsUserGender">
+                                <option value="male">ذكر</option>
+                                <option value="female">أنثى</option>
+                            </select>
+                        </div>
+                        <button class="btn" id="updateProfile">تحديث الملف الشخصي</button>
+                    </div>
+                </div>
+            </main>
+            
+            <footer class="app-footer">
+                <a href="#" class="footer-tab active" data-tab="home">
+                    <i class="fas fa-home"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a href="#" class="footer-tab" data-tab="quran">
+                    <i class="fas fa-quran"></i>
+                    <span>القرآن</span>
+                </a>
+                <a href="#" class="footer-tab" data-tab="memorize">
+                    <i class="fas fa-brain"></i>
+                    <span>الحفظ</span>
+                </a>
+                <a href="#" class="footer-tab" data-tab="plans">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>الخطط</span>
+                </a>
+                <a href="#" class="footer-tab" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>الإعدادات</span>
+                </a>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // بيانات التطبيق
+        const appData = {
+            user: {
+                name: '',
+                gender: 'male'
+            },
+            readingProgress: 2,
+            currentPage: 1,
+            memorizedSurahs: [1, 112, 113, 114],
+            favoriteSurahs: [1, 36, 55, 67],
+            dailyMessages: {
+                male: [
+                    '"يا أيها الذين آمنوا اصبروا وصابروا ورابطوا واتقوا الله لعلكم تفلحون" - آل عمران (200)',
+                    '"إن الله مع الصابرين" - البقرة (153)',
+                    '"والعصر إن الإنسان لفي خسر إلا الذين آمنوا وعملوا الصالحات" - العصر (1-3)',
+                    '"وقل اعملوا فسيرى الله عملكم ورسوله والمؤمنون" - التوبة (105)'
+                ],
+                female: [
+                    '"فاستجاب لهم ربهم أني لا أضيع عمل عامل منكم من ذكر أو أنثى بعضكم من بعض" - آل عمران (195)',
+                    '"من عمل صالحاً من ذكر أو أنثى وهو مؤمن فلنحيينه حياة طيبة" - النحل (97)',
+                    '"إن المسلمين والمسلمات والمؤمنين والمؤمنات والقانتين والقانتات" - الأحزاب (35)',
+                    '"ومن يعمل من الصالحات من ذكر أو أنثى وهو مؤمن فأولئك يدخلون الجنة" - غافر (40)'
+                ]
+            },
+            allSurahs: [],
+            currentSurah: null,
+            currentPlan: null,
+            planProgress: {
+                daysCompleted: 0,
+                pagesRead: 0,
+                startDate: null
+            },
+            darkMode: false
+        };
+
+        // API endpoint للقرآن الكريم
+        const QURAN_API = 'https://api.alquran.cloud/v1';
+
+        // تهيئة التطبيق
+        document.addEventListener('DOMContentLoaded', function() {
+            // التحقق من وجود بيانات المستخدم
+            const savedUser = localStorage.getItem('quranApp_user');
+            if (savedUser) {
+                appData.user = JSON.parse(savedUser);
+                showMainApp();
+            }
+            
+            // إعداد الأحداث
+            setupEventListeners();
+            
+            // تحميل البيانات المحفوظة
+            loadSavedData();
+            
+            // جلب قائمة السور من API
+            fetchAllSurahs();
+            
+            // حفظ البيانات عند إغلاق الصفحة
+            window.addEventListener('beforeunload', saveAllData);
+        });
+
+        // إعداد مستمعي الأحداث
+        function setupEventListeners() {
+            // زر تسجيل الدخول
+            document.getElementById('loginBtn').addEventListener('click', handleLogin);
+            
+            // التنقل بين التبويبات
+            document.querySelectorAll('.nav-item, .footer-tab').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    switchTab(this.getAttribute('data-tab'));
+                });
+            });
+            
+            // أحداث التبويبات المختلفة
+            document.getElementById('prevSurah').addEventListener('click', goToPrevSurah);
+            document.getElementById('nextSurah').addEventListener('click', goToNextSurah);
+            document.getElementById('markVerse').addEventListener('click', markCurrentVerse);
+            document.getElementById('addToFavorites').addEventListener('click', toggleFavorite);
+            document.getElementById('addMemorized').addEventListener('click', showAddMemorizedDialog);
+            document.getElementById('saveSettings').addEventListener('click', saveSettings);
+            document.getElementById('updateProfile').addEventListener('click', updateProfile);
+            document.getElementById('changePlan').addEventListener('click', changePlan);
+            document.getElementById('continueReading').addEventListener('click', continueReading);
+            document.getElementById('continueMemorization').addEventListener('click', continueMemorization);
+            
+            // تبديل الوضع الليلي
+            document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
+            
+            // البحث عن السور
+            document.getElementById('searchSurah').addEventListener('input', searchSurahs);
+            
+            // أحداث خطط الختم
+            document.querySelectorAll('.select-plan').forEach(button => {
+                button.addEventListener('click', function() {
+                    const planCard = this.closest('.plan-card');
+                    selectPlan(planCard);
+                });
+            });
+            
+            // تحديث حجم الخط
+            document.getElementById('fontSize').addEventListener('change', function() {
+                document.getElementById('surahText').style.fontSize = this.value + 'rem';
+            });
+            
+            // تحديث السجل عند التمرير
+            document.getElementById('surahText').addEventListener('scroll', trackSurahProgress);
+        }
+
+        // جلب جميع السور من API
+        async function fetchAllSurahs() {
+            try {
+                const response = await fetch(`${QURAN_API}/surah`);
+                const data = await response.json();
+                
+                if (data.code === 200) {
+                    appData.allSurahs = data.data;
+                    renderAllSurahs();
+                    renderFavoriteSurahs();
+                } else {
+                    console.error('Failed to fetch surahs:', data);
+                    // استخدام بيانات افتراضية في حالة فشل API
+                    loadDefaultSurahs();
+                }
+            } catch (error) {
+                console.error('Error fetching surahs:', error);
+                // استخدام بيانات افتراضية في حالة فشل API
+                loadDefaultSurahs();
+            }
+        }
+
+        // تحميل بيانات افتراضية للسور
+        function loadDefaultSurahs() {
+            appData.allSurahs = [
+                { number: 1, name: 'الفاتحة', englishName: 'Al-Faatiha', revelationType: 'Meccan', numberOfAyahs: 7 },
+                { number: 2, name: 'البقرة', englishName: 'Al-Baqara', revelationType: 'Medinan', numberOfAyahs: 286 },
+                { number: 3, name: 'آل عمران', englishName: 'Aal-i-Imraan', revelationType: 'Medinan', numberOfAyahs: 200 },
+                { number: 36, name: 'يس', englishName: 'Yaseen', revelationType: 'Meccan', numberOfAyahs: 83 },
+                { number: 55, name: 'الرحمن', englishName: 'Ar-Rahmaan', revelationType: 'Medinan', numberOfAyahs: 78 },
+                { number: 56, name: 'الواقعة', englishName: 'Al-Waaqia', revelationType: 'Meccan', numberOfAyahs: 96 },
+                { number: 67, name: 'الملك', englishName: 'Al-Mulk', revelationType: 'Meccan', numberOfAyahs: 30 },
+                { number: 112, name: 'الإخلاص', englishName: 'Al-Ikhlaas', revelationType: 'Meccan', numberOfAyahs: 4 },
+                { number: 113, name: 'الفلق', englishName: 'Al-Falaq', revelationType: 'Meccan', numberOfAyahs: 5 },
+                { number: 114, name: 'الناس', englishName: 'An-Naas', revelationType: 'Meccan', numberOfAyahs: 6 }
+            ];
+            
+            renderAllSurahs();
+            renderFavoriteSurahs();
+        }
+
+        // عرض جميع السور
+        function renderAllSurahs() {
+            const allSurahsContainer = document.getElementById('allSurahs');
+            allSurahsContainer.innerHTML = '';
+            
+            appData.allSurahs.forEach(surah => {
+                const surahCard = document.createElement('div');
+                surahCard.className = 'surah-card';
+                surahCard.innerHTML = `
+                    <div class="surah-number">${surah.number}</div>
+                    <div class="surah-name">${surah.name}</div>
+                    <div class="surah-details">${surah.englishName} - ${surah.numberOfAyahs} آية</div>
+                `;
+                surahCard.addEventListener('click', () => openSurah(surah.number));
+                allSurahsContainer.appendChild(surahCard);
+            });
+        }
+
+        // عرض السور المفضلة
+        function renderFavoriteSurahs() {
+            const favoriteSurahsContainer = document.getElementById('favoriteSurahs');
+            favoriteSurahsContainer.innerHTML = '';
+            
+            appData.favoriteSurahs.forEach(surahNumber => {
+                const surah = appData.allSurahs.find(s => s.number === surahNumber);
+                if (surah) {
+                    const surahCard = document.createElement('div');
+                    surahCard.className = 'surah-card';
+                    surahCard.innerHTML = `
+                        <div class="surah-number">${surah.number}</div>
+                        <div class="surah-name">${surah.name}</div>
+                        <div class="surah-details">${surah.englishName}</div>
+                    `;
+                    surahCard.addEventListener('click', () => openSurah(surah.number));
+                    favoriteSurahsContainer.appendChild(surahCard);
+                }
+            });
+        }
+
+        // فتح سورة
+        async function openSurah(surahNumber) {
+            try {
+                showLoading('surahText', 'جلب السورة...');
+                
+                const response = await fetch(`${QURAN_API}/surah/${surahNumber}/ar.alafasy`);
+                const data = await response.json();
+                
+                if (data.code === 200) {
+                    appData.currentSurah = data.data;
+                    displaySurah();
+                    switchTab('surah');
+                    
+                    // تحديث تقدم القراءة
+                    updateReadingProgress(surahNumber);
+                } else {
+                    console.error('Failed to fetch surah:', data);
+                    alert('فشل في جلب السورة. يرجى المحاولة مرة أخرى.');
+                }
+            } catch (error) {
+                console.error('Error fetching surah:', error);
+                alert('فشل في جلب السورة. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.');
+            }
+        }
+
+        // عرض السورة
+        function displaySurah() {
+            const surah = appData.currentSurah;
+            
+            // تحديث عنوان السورة
+            document.getElementById('surahTitle').textContent = `سورة ${surah.name}`;
+            document.getElementById('surahInfo').textContent = `${surah.revelationType === 'Meccan' ? 'مكية' : 'مدنية'} - ${surah.numberOfAyahs} آية`;
+            document.getElementById('totalVerses').textContent = surah.numberOfAyahs;
+            
+            // عرض البسملة (ما عدا سورة التوبة)
+            const bismillahElement = document.getElementById('bismillah');
+            if (surah.number === 9) {
+                bismillahElement.style.display = 'none';
+            } else {
+                bismillahElement.style.display = 'block';
+                bismillahElement.textContent = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
+            }
+            
+            // عرض آيات السورة
+            const surahTextElement = document.getElementById('surahText');
+            surahTextElement.innerHTML = '';
+            
+            surah.ayahs.forEach(ayah => {
+                const verseElement = document.createElement('div');
+                verseElement.className = 'verse';
+                verseElement.setAttribute('data-verse', ayah.numberInSurah);
+                
+                const verseNumber = document.createElement('span');
+                verseNumber.className = 'verse-number';
+                verseNumber.textContent = ayah.numberInSurah;
+                
+                const verseText = document.createElement('span');
+                verseText.className = 'verse-text';
+                verseText.textContent = ayah.text;
+                
+                verseElement.appendChild(verseNumber);
+                verseElement.appendChild(verseText);
+                surahTextElement.appendChild(verseElement);
+            });
+            
+            // تحديث زر المفضلة
+            updateFavoriteButton();
+            
+            // إعادة تعيين تقدم السورة
+            resetSurahProgress();
+        }
+
+        // تحديث زر المفضلة
+        function updateFavoriteButton() {
+            const favoriteButton = document.getElementById('addToFavorites');
+            const isFavorite = appData.favoriteSurahs.includes(appData.currentSurah.number);
+            
+            if (isFavorite) {
+                favoriteButton.innerHTML = '<i class="fas fa-star"></i> إزالة من المفضلة';
+                favoriteButton.classList.add('btn-gold');
+            } else {
+                favoriteButton.innerHTML = '<i class="far fa-star"></i> إضافة إلى المفضلة';
+                favoriteButton.classList.remove('btn-gold');
+            }
+        }
+
+        // إضافة/إزالة من المفضلة
+        function toggleFavorite() {
+            const surahNumber = appData.currentSurah.number;
+            const index = appData.favoriteSurahs.indexOf(surahNumber);
+            
+            if (index > -1) {
+                // إزالة من المفضلة
+                appData.favoriteSurahs.splice(index, 1);
+            } else {
+                // إضافة إلى المفضلة
+                appData.favoriteSurahs.push(surahNumber);
+            }
+            
+            // حفظ التغييرات
+            saveProgress();
+            
+            // تحديث الزر والعرض
+            updateFavoriteButton();
+            renderFavoriteSurahs();
+        }
+
+        // البحث في السور
+        function searchSurahs() {
+            const searchTerm = document.getElementById('searchSurah').value.toLowerCase();
+            const allSurahsContainer = document.getElementById('allSurahs');
+            
+            if (searchTerm === '') {
+                renderAllSurahs();
+                return;
+            }
+            
+            allSurahsContainer.innerHTML = '';
+            
+            const filteredSurahs = appData.allSurahs.filter(surah => 
+                surah.name.toLowerCase().includes(searchTerm) || 
+                surah.englishName.toLowerCase().includes(searchTerm) ||
+                surah.number.toString().includes(searchTerm)
+            );
+            
+            filteredSurahs.forEach(surah => {
+                const surahCard = document.createElement('div');
+                surahCard.className = 'surah-card';
+                surahCard.innerHTML = `
+                    <div class="surah-number">${surah.number}</div>
+                    <div class="surah-name">${surah.name}</div>
+                    <div class="surah-details">${surah.englishName} - ${surah.numberOfAyahs} آية</div>
+                `;
+                surahCard.addEventListener('click', () => openSurah(surah.number));
+                allSurahsContainer.appendChild(surahCard);
+            });
+        }
+
+        // الذهاب إلى السورة السابقة
+        function goToPrevSurah() {
+            if (appData.currentSurah && appData.currentSurah.number > 1) {
+                openSurah(appData.currentSurah.number - 1);
+            }
+        }
+
+        // الذهاب إلى السورة التالية
+        function goToNextSurah() {
+            if (appData.currentSurah && appData.currentSurah.number < 114) {
+                openSurah(appData.currentSurah.number + 1);
+            }
+        }
+
+        // تظليل الآية الحالية
+        function markCurrentVerse() {
+            const surahText = document.getElementById('surahText');
+            // هذا مثال بسيط، في التطبيق الحقيقي يمكن تطبيق تظليل أكثر تطوراً
+            surahText.style.backgroundColor = surahText.style.backgroundColor === 'var(--gold)' ? 'var(--light-gray)' : 'var(--gold)';
+        }
+
+        // تتبع تقدم قراءة السورة
+        function trackSurahProgress() {
+            if (!appData.currentSurah) return;
+            
+            const surahText = document.getElementById('surahText');
+            const verses = surahText.querySelectorAll('.verse');
+            const viewportHeight = surahText.clientHeight;
+            const scrollTop = surahText.scrollTop;
+            const scrollBottom = scrollTop + viewportHeight;
+            
+            let lastVisibleVerse = 0;
+            
+            verses.forEach(verse => {
+                const verseTop = verse.offsetTop;
+                const verseBottom = verseTop + verse.offsetHeight;
+                
+                if (verseTop < scrollBottom && verseBottom > scrollTop) {
+                    const verseNumber = parseInt(verse.getAttribute('data-verse'));
+                    if (verseNumber > lastVisibleVerse) {
+                        lastVisibleVerse = verseNumber;
+                    }
+                }
+            });
+            
+            if (lastVisibleVerse > 0) {
+                const progress = (lastVisibleVerse / appData.currentSurah.numberOfAyahs) * 100;
+                document.getElementById('surahProgressBar').style.width = `${progress}%`;
+                document.getElementById('currentVerse').textContent = lastVisibleVerse;
+                document.getElementById('surahPercent').textContent = Math.round(progress);
+                
+                // تحديث التقدم العام
+                appData.readingProgress = Math.max(appData.readingProgress, progress);
+                updateHomeProgress();
+            }
+        }
+
+        // إعادة تعيين تقدم السورة
+        function resetSurahProgress() {
+            document.getElementById('surahProgressBar').style.width = '0%';
+            document.getElementById('currentVerse').textContent = '1';
+            document.getElementById('surahPercent').textContent = '0';
+        }
+
+        // تحديث تقدم القراءة
+        function updateReadingProgress(surahNumber) {
+            // في تطبيق حقيقي، يمكن حفظ التقدم بناءً على السورة والصفحة
+            appData.currentPage = Math.max(appData.currentPage, surahNumber);
+            updateHomeProgress();
+            saveProgress();
+        }
+
+        // تحديث التقدم في الصفحة الرئيسية
+        function updateHomeProgress() {
+            // تحديث تقدم القراءة
+            const readingProgress = (appData.currentPage / 114) * 100;
+            document.getElementById('readingProgressBar').style.width = `${readingProgress}%`;
+            document.getElementById('currentPageDisplay').textContent = appData.currentPage;
+            document.getElementById('readingPercent').textContent = Math.round(readingProgress);
+            
+            // تحديث تقدم الحفظ
+            const memorizationProgress = (appData.memorizedSurahs.length / 114) * 100;
+            document.getElementById('memorizationProgressBar').style.width = `${memorizationProgress}%`;
+            document.getElementById('memorizedCount').textContent = appData.memorizedSurahs.length;
+            document.getElementById('memorizationPercent').textContent = Math.round(memorizationProgress);
+            
+            // تحديث تقدم الخطة
+            updatePlanProgress();
+        }
+
+        // تحديث تقدم الخطة
+        function updatePlanProgress() {
+            if (!appData.currentPlan) return;
+            
+            const today = new Date();
+            const startDate = new Date(appData.planProgress.startDate);
+            const daysPassed = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            const totalDays = appData.currentPlan.duration;
+            
+            const progress = Math.min((daysPassed / totalDays) * 100, 100);
+            
+            document.getElementById('planProgressBar').style.width = `${progress}%`;
+            document.getElementById('planDaysCompleted').textContent = `${daysPassed} يوم مكتمل`;
+            document.getElementById('planDaysRemaining').textContent = `${totalDays - daysPassed} يوم متبقي`;
+            
+            appData.planProgress.daysCompleted = daysPassed;
+        }
+
+        // عرض نافذة التحميل
+        function showLoading(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // تبديل الوضع الليلي
+        function toggleDarkMode() {
+            appData.darkMode = !appData.darkMode;
+            document.body.classList.toggle('dark-mode', appData.darkMode);
+            
+            const themeIcon = document.getElementById('themeToggle').querySelector('i');
+            if (appData.darkMode) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            // حفظ الإعداد
+            localStorage.setItem('quranApp_darkMode', appData.darkMode);
+        }
+
+        // معالجة تسجيل الدخول
+        function handleLogin() {
+            const userName = document.getElementById('userName').value;
+            const userGender = document.getElementById('userGender').value;
+            
+            if (userName.trim() === '') {
+                alert('يرجى إدخال اسم المستخدم');
+                return;
+            }
+            
+            appData.user.name = userName;
+            appData.user.gender = userGender;
+            
+            // حفظ بيانات المستخدم
+            localStorage.setItem('quranApp_user', JSON.stringify(appData.user));
+            
+            showMainApp();
+        }
+
+        // عرض التطبيق الرئيسي
+        function showMainApp() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('mainApp').style.display = 'flex';
+            
+            // تحديث واجهة المستخدم
+            updateUserInterface();
+            
+            // تعيين الرسالة اليومية
+            setDailyMessage();
+            
+            // تحديث التقدم
+            updateHomeProgress();
+        }
+
+        // تبديل التبويبات
+        function switchTab(tabName) {
+            // إزالة النشاط من جميع التبويبات
+            document.querySelectorAll('.nav-item, .footer-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // إضافة النشاط للتبويب المحدد
+            document.querySelectorAll(`[data-tab="${tabName}"]`).forEach(tab => {
+                tab.classList.add('active');
+            });
+            
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        // تحديث واجهة المستخدم
+        function updateUserInterface() {
+            document.getElementById('userAvatar').textContent = appData.user.name.charAt(0);
+            document.getElementById('settingsUserName').value = appData.user.name;
+            document.getElementById('settingsUserGender').value = appData.user.gender;
+        }
+
+        // تعيين الرسالة اليومية
+        function setDailyMessage() {
+            const messages = appData.dailyMessages[appData.user.gender];
+            const today = new Date().getDate();
+            const messageIndex = today % messages.length;
+            document.getElementById('dailyMessageText').textContent = messages[messageIndex];
+        }
+
+        // تحديث قائمة السور المحفوظة
+        function updateMemorizedList() {
+            const memorizedList = document.getElementById('memorizedList');
+            memorizedList.innerHTML = '';
+            
+            appData.memorizedSurahs.forEach(surahNumber => {
+                const surah = appData.allSurahs.find(s => s.number === surahNumber);
+                if (surah) {
+                    const surahCard = document.createElement('div');
+                    surahCard.className = 'surah-card';
+                    surahCard.innerHTML = `
+                        <div class="surah-number">${surah.number}</div>
+                        <div class="surah-name">${surah.name}</div>
+                    `;
+                    memorizedList.appendChild(surahCard);
+                }
+            });
+            
+            // تحديث العدادات
+            document.getElementById('memorizeCount').textContent = appData.memorizedSurahs.length;
+            document.getElementById('memorizePercent').textContent = Math.round((appData.memorizedSurahs.length / 114) * 100);
+        }
+
+        // عرض نافذة إضافة سورة محفوظة
+        function showAddMemorizedDialog() {
+            const surahNumber = prompt('أدخل رقم السورة التي حفظتها:');
+            if (surahNumber && !isNaN(surahNumber)) {
+                const number = parseInt(surahNumber);
+                if (number >= 1 && number <= 114 && !appData.memorizedSurahs.includes(number)) {
+                    appData.memorizedSurahs.push(number);
+                    updateMemorizedList();
+                    saveProgress();
+                    alert('تم إضافة السورة إلى قائمة المحفوظات');
+                } else {
+                    alert('رقم السورة غير صحيح أو السورة مضافّة مسبقاً');
+                }
+            }
+        }
+
+        // اختيار خطة الختم
+        function selectPlan(planCard) {
+            const duration = planCard.getAttribute('data-duration');
+            const pages = planCard.getAttribute('data-pages');
+            
+            appData.currentPlan = {
+                duration: parseInt(duration),
+                dailyPages: parseFloat(pages),
+                startDate: new Date().toISOString()
+            };
+            
+            appData.planProgress = {
+                daysCompleted: 0,
+                pagesRead: 0,
+                startDate: new Date().toISOString()
+            };
+            
+            // حفظ الخطة
+            localStorage.setItem('quranApp_plan', JSON.stringify(appData.currentPlan));
+            localStorage.setItem('quranApp_planProgress', JSON.stringify(appData.planProgress));
+            
+            // تحديث العرض
+            updatePlanDisplay();
+            updateHomePlanDisplay();
+            
+            alert(`تهانينا! لقد اخترت خطة الختم في ${planCard.querySelector('.plan-duration').textContent}. سنقوم بتذكيرك يومياً بقراءة الصفحات المطلوبة.`);
+        }
+
+        // تحديث عرض الخطة في تبويب الخطط
+        function updatePlanDisplay() {
+            const currentPlanCard = document.getElementById('currentPlanCard');
+            const currentPlanInfo = document.getElementById('currentPlanInfo');
+            
+            if (appData.currentPlan) {
+                currentPlanCard.style.display = 'block';
+                currentPlanInfo.innerHTML = `
+                    <p><strong>المدة:</strong> ${appData.currentPlan.duration} يوم</p>
+                    <p><strong>الصفحات اليومية:</strong> ${appData.currentPlan.dailyPages} صفحة</p>
+                    <p><strong>تاريخ البدء:</strong> ${new Date(appData.currentPlan.startDate).toLocaleDateString('ar-AR')}</p>
+                `;
+            } else {
+                currentPlanCard.style.display = 'none';
+            }
+        }
+
+        // تحديث عرض الخطة في الصفحة الرئيسية
+        function updateHomePlanDisplay() {
+            const currentPlanHomeCard = document.getElementById('currentPlanHomeCard');
+            const currentPlanHomeInfo = document.getElementById('currentPlanHomeInfo');
+            
+            if (appData.currentPlan) {
+                currentPlanHomeCard.style.display = 'block';
+                currentPlanHomeInfo.innerHTML = `
+                    <p><strong>الخطة:</strong> ${appData.currentPlan.duration} يوم</p>
+                    <p><strong>الصفحات اليومية:</strong> ${appData.currentPlan.dailyPages} صفحة</p>
+                `;
+                
+                updatePlanProgress();
+            } else {
+                currentPlanHomeCard.style.display = 'none';
+            }
+        }
+
+        // تغيير الخطة
+        function changePlan() {
+            if (confirm('هل أنت متأكد من تغيير الخطة الحالية؟ سيتم إعادة حساب التقدم.')) {
+                appData.currentPlan = null;
+                appData.planProgress = {
+                    daysCompleted: 0,
+                    pagesRead: 0,
+                    startDate: null
+                };
+                localStorage.removeItem('quranApp_plan');
+                localStorage.removeItem('quranApp_planProgress');
+                updatePlanDisplay();
+                updateHomePlanDisplay();
+            }
+        }
+
+        // متابعة القراءة
+        function continueReading() {
+            // في تطبيق حقيقي، يمكن فتح آخر سورة تم قراءتها
+            if (appData.currentSurah) {
+                switchTab('surah');
+            } else {
+                switchTab('quran');
+            }
+        }
+
+        // متابعة الحفظ
+        function continueMemorization() {
+            switchTab('memorize');
+        }
+
+        // حفظ الإعدادات
+        function saveSettings() {
+            const fontSize = document.getElementById('fontSize').value;
+            const theme = document.getElementById('theme').value;
+            const reminders = document.getElementById('reminders').value;
+            
+            const settings = {
+                fontSize: fontSize,
+                theme: theme,
+                reminders: reminders
+            };
+            
+            localStorage.setItem('quranApp_settings', JSON.stringify(settings));
+            
+            // تطبيق الإعدادات
+            document.getElementById('surahText').style.fontSize = fontSize + 'rem';
+            
+            alert('تم حفظ الإعدادات بنجاح');
+        }
+
+        // تحديث الملف الشخصي
+        function updateProfile() {
+            const userName = document.getElementById('settingsUserName').value;
+            const userGender = document.getElementById('settingsUserGender').value;
+            
+            if (userName.trim() === '') {
+                alert('يرجى إدخال اسم المستخدم');
+                return;
+            }
+            
+            appData.user.name = userName;
+            appData.user.gender = userGender;
+            
+            // حفظ بيانات المستخدم
+            localStorage.setItem('quranApp_user', JSON.stringify(appData.user));
+            
+            // تحديث واجهة المستخدم
+            updateUserInterface();
+            setDailyMessage();
+            
+            alert('تم تحديث الملف الشخصي بنجاح');
+        }
+
+        // تحميل البيانات المحفوظة
+        function loadSavedData() {
+            // تحميل التقدم
+            const savedProgress = localStorage.getItem('quranApp_progress');
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                appData.readingProgress = progress.readingProgress || 2;
+                appData.currentPage = progress.currentPage || 1;
+                appData.memorizedSurahs = progress.memorizedSurahs || [1, 112, 113, 114];
+                appData.favoriteSurahs = progress.favoriteSurahs || [1, 36, 55, 67];
+            }
+            
+            // تحميل الخطة
+            const savedPlan = localStorage.getItem('quranApp_plan');
+            if (savedPlan) {
+                appData.currentPlan = JSON.parse(savedPlan);
+                updatePlanDisplay();
+                updateHomePlanDisplay();
+            }
+            
+            // تحميل تقدم الخطة
+            const savedPlanProgress = localStorage.getItem('quranApp_planProgress');
+            if (savedPlanProgress) {
+                appData.planProgress = JSON.parse(savedPlanProgress);
+            }
+            
+            // تحميل الإعدادات
+            const savedSettings = localStorage.getItem('quranApp_settings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                document.getElementById('fontSize').value = settings.fontSize;
+                document.getElementById('theme').value = settings.theme;
+                document.getElementById('reminders').value = settings.reminders;
+                
+                // تطبيق الإعدادات
+                document.getElementById('surahText').style.fontSize = settings.fontSize + 'rem';
+            }
+            
+            // تحميل الوضع الليلي
+            const savedDarkMode = localStorage.getItem('quranApp_darkMode');
+            if (savedDarkMode) {
+                appData.darkMode = JSON.parse(savedDarkMode);
+                document.body.classList.toggle('dark-mode', appData.darkMode);
+                
+                const themeIcon = document.getElementById('themeToggle').querySelector('i');
+                if (appData.darkMode) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+            
+            // تحديث القوائم
+            updateMemorizedList();
+        }
+
+        // حفظ التقدم
+        function saveProgress() {
+            const progress = {
+                readingProgress: appData.readingProgress,
+                currentPage: appData.currentPage,
+                memorizedSurahs: appData.memorizedSurahs,
+                favoriteSurahs: appData.favoriteSurahs
+            };
+            
+            localStorage.setItem('quranApp_progress', JSON.stringify(progress));
+        }
+
+        // حفظ جميع البيانات
+        function saveAllData() {
+            saveProgress();
+            
+            if (appData.currentPlan) {
+                localStorage.setItem('quranApp_plan', JSON.stringify(appData.currentPlan));
+                localStorage.setItem('quranApp_planProgress', JSON.stringify(appData.planProgress));
+            }
+            
+            localStorage.setItem('quranApp_darkMode', appData.darkMode);
+        }
+    </script>
+</body>
+</html>
